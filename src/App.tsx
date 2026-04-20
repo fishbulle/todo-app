@@ -1,15 +1,14 @@
-import { logIn, registerUser } from "./api/api"
-import { StyledWrapper } from "./styles/styles"
-
+import { colors, StyledButton, StyledWrapper } from "./styles/styles"
 
 function App() {
 
   return (
     <>
+      <h1 style={{ color: colors.wrapperColor }}>TODO APP</h1>
       <StyledWrapper>
-        <p>Hejsan du din lilla räka!</p>
-        <button onClick={() => registerUser('12345678', 'angelina')}>REGISTRERA</button>
-        <button onClick={() => logIn('12345678', 'angelina')}>LOGIN</button>
+        <p>Logga in eller registrera dig för att fortsätta</p>
+        <StyledButton>Logga in</StyledButton>
+        <StyledButton>Registera</StyledButton>
       </StyledWrapper>
     </>
   )

@@ -1,11 +1,12 @@
 import type { AxiosResponse } from "axios";
 import api from "./api-root";
+import type { Dispatch, SetStateAction } from "react";
 
 
 export async function registerUser(
     password: string,
     username: string
-): Promise<AxiosResponse<{ createdAt: string; id: string; username: string }> | undefined> {
+): Promise<AxiosResponse<{ createdAt: string; id: string; username: string; }> | undefined> {
     try {
         const response = await api.post('/users', {
             password: password,
@@ -18,16 +19,18 @@ export async function registerUser(
     }
 }
 
-
 export async function logIn(
     password: string,
-    username: string
+    username: string,
+    setIsAuthenticated: Dispatch<SetStateAction<boolean>>,
+    setToken: Dispatch<SetStateAction<string>>,
+    setUsername: Dispatch<SetStateAction<string>>
 ): Promise<AxiosResponse<{
     token: string;
     user: {
         createdAt: string;
         id: string;
-        username: string
+        username: string;
     }
 }> | undefined> {
     try {
@@ -36,9 +39,15 @@ export async function logIn(
             username: username
         });
 
-        console.log(response, '<-response')
-        return response;
+        if (response.status == 200) {
+            setIsAuthenticated(true);
+            setToken(response.data.token);
+            setUsername(response.data.username);
+
+            return response;
+        }
     } catch (error) {
         console.error('something went wrong', error);
     }
 }
+
