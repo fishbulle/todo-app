@@ -1,4 +1,5 @@
-import { colors, StyledButton, StyledWrapper } from "./styles/styles"
+import { ApplicationRoutes } from "./routes/ApplicationRoutes"
+import { colors, StyledWrapper } from "./styles/styles"
 
 function App() {
 
@@ -6,9 +7,7 @@ function App() {
     <>
       <h1 style={{ color: colors.wrapperColor }}>TODO APP</h1>
       <StyledWrapper>
-        <p>Logga in eller registrera dig för att fortsätta</p>
-        <StyledButton>Logga in</StyledButton>
-        <StyledButton>Registera</StyledButton>
+        <ApplicationRoutes />
       </StyledWrapper>
     </>
   )
