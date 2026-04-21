@@ -39,13 +39,13 @@ export async function logIn(
             username: username
         });
 
-        if (response.status == 200) {
+        if (response.status == 201) {
             setIsAuthenticated(true);
             setToken(response.data.token);
-            setUsername(response.data.username);
-
-            return response;
+            setUsername(response.data.user.username);
         }
+
+        return response;
     } catch (error) {
         console.error('something went wrong', error);
     }
