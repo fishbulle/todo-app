@@ -9,6 +9,7 @@ import { Dashboard } from "../pages/Dashboard";
 
 export const ApplicationRoutes = () => {
     const { isAuthenticated } = useContext(AuthContext);
+    console.log(isAuthenticated, 'isAuth')
 
     return (
         <>

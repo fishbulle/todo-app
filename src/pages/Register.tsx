@@ -1,4 +1,4 @@
-import RegisterForm from "../api/components/RegisterForm";
+import RegisterForm from "../api/components/form/RegisterForm";
 
 export function RegisterPage() {
 

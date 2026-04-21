@@ -1,8 +1,10 @@
 import { useState, type SyntheticEvent } from "react";
-import { registerUser } from "../api";
-import { StyledButton } from "../../styles/styles";
+import { registerUser } from "../../api";
+import { StyledButton } from "../../../styles/styles";
 import { useNavigate } from "react-router";
-import { routes } from "../../routes/routes";
+import { routes } from "../../../routes/routes";
+
+{/* TODO: Use zod and react hook form */ }
 
 export default function RegisterForm() {
     const [username, setUsername] = useState('');
@@ -33,6 +35,7 @@ export default function RegisterForm() {
             const response = await registerUser(password, username);
 
             if (response?.status == 201) navigate(routes.login);
+            else if (response?.status == 409) setErrorMessage('Användarnamnet finns redan registrerat.')
 
             setUsername('');
             setPassword('');
@@ -75,6 +78,7 @@ export default function RegisterForm() {
 
             {/* TODO: Add password verification (second input) */}
 
+            <StyledButton onClick={() => navigate(routes.start)}>Tillbaka</StyledButton>
             <StyledButton type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Registrerar..." : "Registrera"}
             </StyledButton>
