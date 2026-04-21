@@ -12,14 +12,14 @@ type LoginResponse = {
     user: User;
 };
 
-export type CreateListResponse = {
+export type TodoList = {
     createdAt: string;
     id: number;
     name: string;
     ownerId: number;
 };
 
-export type CreateTodoResponse = {
+export type Todo = {
     completed: boolean;
     createdAt: string;
     id: number;
@@ -61,7 +61,7 @@ export async function logIn(
 export async function createTodoList(
     name: string,
     token: string
-): Promise<AxiosResponse<CreateListResponse> | undefined> {
+): Promise<AxiosResponse<TodoList> | undefined> {
     try {
         const response = await api.post(
             '/lists',
@@ -83,7 +83,7 @@ export async function createTodoList(
 }
 
 export async function fetchAllTodoLists(token: string):
-    Promise<AxiosResponse<CreateListResponse[]> | undefined> {
+    Promise<AxiosResponse<TodoList[]> | undefined> {
     try {
         const response = await api.get(
             '/lists',
@@ -105,7 +105,7 @@ export async function createTodo(
     listID: number,
     token: string,
     title: string
-): Promise<AxiosResponse<CreateTodoResponse> | undefined> {
+): Promise<AxiosResponse<Todo> | undefined> {
     try {
         const response = await api.post(
             `/lists/${listID}/todos`,
@@ -129,7 +129,7 @@ export async function createTodo(
 export async function fetchAllTodosInList(
     listID: number,
     token: string,
-): Promise<AxiosResponse<CreateTodoResponse[]> | undefined> {
+): Promise<AxiosResponse<Todo[]> | undefined> {
     try {
         const response = await api.get(
             `/lists/${listID}/todos`,
@@ -153,7 +153,7 @@ export async function updateTodo(
     token: string,
     completed: boolean,
     title: string
-): Promise<AxiosResponse<CreateTodoResponse> | undefined> {
+): Promise<AxiosResponse<Todo> | undefined> {
     try {
         const response = await api.put(
             `/lists/${listID}/todos/${id}`,
