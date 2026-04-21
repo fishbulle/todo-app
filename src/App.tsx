@@ -1,11 +1,11 @@
 import { ApplicationRoutes } from "./routes/ApplicationRoutes"
-import { colors, StyledWrapper } from "./styles/styles"
+import { StyledWrapper } from "./styles/styles"
 
 function App() {
 
   return (
     <>
-      <h1 style={{ color: colors.wrapperColor }}>TODO APP</h1>
+      <h1>TODO APP</h1>
       <StyledWrapper>
         <ApplicationRoutes />
       </StyledWrapper>
