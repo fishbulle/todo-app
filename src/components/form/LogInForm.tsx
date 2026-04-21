@@ -1,16 +1,20 @@
-import { useState, type SyntheticEvent } from "react";
-import { registerUser } from "../../api";
-import { StyledButton } from "../../../styles/styles";
+import { useContext, useState, type SyntheticEvent } from "react";
+import { logIn } from "../../api/api";
+import { StyledButton } from "../../styles/styles";
 import { useNavigate } from "react-router";
-import { routes } from "../../../routes/routes";
+import { routes } from "../../routes/routes";
+import { AuthContext } from "../../context/AuthContext";
 
-{/* TODO: Use zod and react hook form */ }
+{/* TODO: Use zod and/or react hook form */ }
 
-export default function RegisterForm() {
-    const [username, setUsername] = useState('');
+export default function LogInForm() {
+    const [usernameForm, setUsernameForm] = useState('');
     const [password, setPassword] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const { setIsAuthenticated, setToken, setUsername } =
+        useContext(AuthContext);
 
     const navigate = useNavigate()
 
@@ -19,29 +23,31 @@ export default function RegisterForm() {
 
         setErrorMessage('');
 
-        if (!username.trim() || !password.trim()) {
+        if (!usernameForm.trim() || !password.trim()) {
             setErrorMessage('Användarnamn och lösenord måste fyllas i.');
-            return;
-        }
-
-        if (password.length < 8) {
-            setErrorMessage('Lösenordet måste vara minst 8 tecken.');
             return;
         }
 
         try {
             setIsSubmitting(true);
 
-            const response = await registerUser(password, username);
+            const response = await logIn(password, usernameForm);
 
-            if (response?.status == 201) navigate(routes.login);
-            else if (response?.status == 409) setErrorMessage('Användarnamnet finns redan registrerat.')
+            if (response?.status == 201) {
+                setIsAuthenticated(true);
+                setToken(response.data.token);
+                setUsername(response.data.user.username);
+                navigate(routes.dashboard);
+            }
+            else if (response?.status == 401) {
+                setErrorMessage('Felaktigt användarnamn eller lösenord');
+            }
 
-            setUsername('');
+            setUsernameForm('');
             setPassword('');
 
         } catch (error) {
-            setErrorMessage("Kunde inte registrera användaren.");
+            setErrorMessage("Kunde inte logga in användaren.");
             console.error(error);
         } finally {
             setIsSubmitting(false);
@@ -56,13 +62,13 @@ export default function RegisterForm() {
                 <input
                     id="username"
                     type="text"
-                    value={username}
-                    onChange={(event) => setUsername(event.target.value)}
+                    value={usernameForm}
+                    onChange={(event) => setUsernameForm(event.target.value)}
                     placeholder="Ange användarnamn"
                     required
                 />
             </div>
-
+            <br />
             <div>
                 <label htmlFor="password">Lösenord</label>
                 <br />
@@ -76,14 +82,12 @@ export default function RegisterForm() {
                 />
             </div>
 
-            {/* TODO: Add password verification (second input) */}
-
             <StyledButton onClick={() => navigate(routes.start)}>Tillbaka</StyledButton>
             <StyledButton type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Registrerar..." : "Registrera"}
+                {isSubmitting ? "Loggar in..." : "Logga in"}
             </StyledButton>
 
             {errorMessage && <p>{errorMessage}</p>}
-        </form>
+        </form >
     );
 }
