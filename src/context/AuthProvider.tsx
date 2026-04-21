@@ -6,20 +6,28 @@ import {
 import { AuthContext } from './AuthContext';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(() => {
+    return localStorage.getItem('username') || '';
+  });
   const [token, setToken] = useState(() => {
     return localStorage.getItem('token') || '';
   });
 
   useEffect(() => {
-    if (token && username) {
+    if (token) {
       localStorage.setItem('token', token);
-      localStorage.setItem('username', username)
     } else {
       localStorage.removeItem('token');
-      localStorage.removeItem('username')
     }
-  }, [token, username]);
+  }, [token]);
+
+  useEffect(() => {
+    if (username) {
+      localStorage.setItem('username', username);
+    } else {
+      localStorage.removeItem('username');
+    }
+  }, [username]);
 
   const authContextValue = {
     username,
