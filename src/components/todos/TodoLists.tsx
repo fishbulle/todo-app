@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState, type SyntheticEvent } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { createTodoList, fetchAllTodoLists, type CreateListResponse } from "../../api/api";
+import { createTodoList, fetchAllTodoLists, type TodoList } from "../../api/api";
 import { TodoPanel } from "./TodoPanel";
 import { StyledButton } from "../../styles/styles";
 
 
 export const TodoLists = () => {
     const { token } = useContext(AuthContext);
-    const [lists, setLists] = useState<CreateListResponse[]>([]);
+    const [lists, setLists] = useState<TodoList[]>([]);
     const [listName, setListName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -46,11 +46,7 @@ export const TodoLists = () => {
 
             if (response?.status == 201) {
                 console.log(response.data);
-
-                const createListResponse = await fetchAllTodoLists(token);
-                if (createListResponse?.status === 200) {
-                    setLists(createListResponse.data);
-                }
+                setLists(prev => [...prev, response.data]);
             }
 
             setListName('');

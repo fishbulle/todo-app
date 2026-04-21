@@ -1,13 +1,17 @@
 import { useContext, useEffect, useState, type SyntheticEvent } from "react"
 import { AuthContext } from "../../context/AuthContext"
-import { createTodo, fetchAllTodosInList, type CreateTodoResponse } from "../../api/api";
+import { createTodo, fetchAllTodosInList, updateTodo, type Todo } from "../../api/api";
 import type { CSSProperties } from "styled-components";
+
+const completedStyle: CSSProperties = {
+    textDecoration: 'line-through'
+}
 
 export const TodoPanel = (props: { listId: number }) => {
     const { listId } = props;
     const { token } = useContext(AuthContext);
-    const [todos, setTodos] = useState<CreateTodoResponse[]>([]);
-    const [isLoadingTodos, setIsLoadingTodos] = useState(false);
+    const [todos, setTodos] = useState<Todo[]>([]);
+    const [isLoadingTodos, setIsLoadingTodos] = useState(true);
     const [newTodoTitle, setNewTodoTitle] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -48,10 +52,7 @@ export const TodoPanel = (props: { listId: number }) => {
             if (response?.status === 201) {
                 console.log('response createTodo', response.data)
 
-                const todosResponse = await fetchAllTodosInList(listId, token);
-                if (todosResponse?.status === 200) {
-                    setTodos(todosResponse.data);
-                }
+                setTodos(prev => [...prev, response.data]);
             }
 
             setNewTodoTitle('');
@@ -64,8 +65,19 @@ export const TodoPanel = (props: { listId: number }) => {
         }
     };
 
-    const completedStyle: CSSProperties = {
-        textDecoration: 'line-through'
+
+    async function handleToggleComplete(todo: Todo) {
+        try {
+            const response = await updateTodo(listId, todo.id, token, !todo.completed, todo.title);
+
+            if (response?.status === 200) {
+                setTodos(prev =>
+                    prev.map(t => t.id === todo.id ? response.data : t)
+                );
+            }
+        } catch (error) {
+            console.error("Kunde inte uppdatera todo.", error);
+        }
     }
 
     return (
@@ -93,6 +105,11 @@ export const TodoPanel = (props: { listId: number }) => {
                 <ul style={{ listStyleType: 'none' }}>
                     {todos.map((todo) => (
                         <li key={todo.id} style={todo.completed ? completedStyle : {}}>
+                            <input
+                                type="checkbox"
+                                checked={todo.completed}
+                                onChange={() => handleToggleComplete(todo)}
+                            />
                             {todo.title}
                         </li>
                     ))}
