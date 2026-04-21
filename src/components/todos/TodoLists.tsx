@@ -9,7 +9,10 @@ export const TodoLists = () => {
     const [lists, setLists] = useState<TodoList[]>([]);
     const [listName, setListName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [createListError, setCreateListError] = useState('');
+    const [fetchListsError, setFetchListsError] = useState('');
+    const [deleteListError, setDeleteListError] = useState('');
+    const [deleteListErrorId, setDeleteListErrorId] = useState<number | null>(null);
 
     useEffect(() => {
         const getAllLists = async () => {
@@ -18,12 +21,11 @@ export const TodoLists = () => {
 
                 if (response?.status == 200) {
                     setLists(response.data);
-                }
-                else {
+                } else {
                     setLists([]);
                 }
-            } catch (error) {
-                console.error(error);
+            } catch {
+                setFetchListsError('Kunde inte hämta listor.')
             }
         };
 
@@ -33,10 +35,10 @@ export const TodoLists = () => {
     async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        setErrorMessage('');
+        setCreateListError('');
 
         if (!listName.trim()) {
-            setErrorMessage('Listnamn måste fyllas i.');
+            setCreateListError('Listnamn måste fyllas i.');
             return;
         }
 
@@ -51,9 +53,8 @@ export const TodoLists = () => {
 
             setListName('');
 
-        } catch (error) {
-            setErrorMessage('Kunde inte spara lista.');
-            console.error(error);
+        } catch {
+            setCreateListError('Kunde inte spara lista.');
         } finally {
             setIsSubmitting(false);
         }
@@ -66,9 +67,9 @@ export const TodoLists = () => {
             if (response?.status === 204) {
                 setLists(prev => prev.filter(list => list.id !== listId));
             }
-
-        } catch (error) {
-            console.error('Kunde inte radera lista.', error);
+        } catch {
+            setDeleteListErrorId(listId);
+            setDeleteListError('Kunde inte radera lista');
         }
     }
 
@@ -90,8 +91,7 @@ export const TodoLists = () => {
                     <button type="submit" disabled={isSubmitting}>
                         {isSubmitting ? 'Skapar lista...' : 'Skapa lista'}
                     </button>
-
-                    {errorMessage && <p>{errorMessage}</p>}
+                    {createListError && <p>{createListError}</p>}
                 </div>
             </form>
 
@@ -100,11 +100,14 @@ export const TodoLists = () => {
 
             <h2>Dina todo listor</h2>
 
+            {fetchListsError && <p>{fetchListsError}</p>}
+
             {lists.map((item) => (
                 <div key={item.id} style={{ borderBottom: '1px solid black', paddingBottom: '2em' }}>
                     <h3>{item.name}</h3>
                     <TodoPanel listId={item.id} />
                     <button onClick={() => handleDeleteList(item.id)}>Radera lista</button>
+                    {deleteListErrorId === item.id && <p>{deleteListError}</p>}
                 </div>
             ))}
 

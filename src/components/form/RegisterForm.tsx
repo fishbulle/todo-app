@@ -43,9 +43,8 @@ export default function RegisterForm() {
             setUsername('');
             setPassword('');
 
-        } catch (error) {
+        } catch {
             setErrorMessage('Kunde inte registrera användaren.');
-            console.error(error);
         } finally {
             setIsSubmitting(false);
         }

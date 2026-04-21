@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState, type SyntheticEvent } from "react"
+import { useContext, useEffect, useState, type CSSProperties, type SyntheticEvent } from "react"
 import { AuthContext } from "../../context/AuthContext"
 import { createTodo, fetchAllTodosInList, updateTodo, type Todo } from "../../api/api";
-import type { CSSProperties } from "styled-components";
 
 const completedStyle: CSSProperties = {
     textDecoration: 'line-through'
@@ -14,7 +13,9 @@ export const TodoPanel = (props: { listId: number }) => {
     const [isLoadingTodos, setIsLoadingTodos] = useState(true);
     const [newTodoTitle, setNewTodoTitle] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [createTodoError, setCreateTodoError] = useState('');
+    const [fetchTodoError, setFetchTodoError] = useState('');
+    const [updateTodoError, setUpdateTodoError] = useState('');
 
     useEffect(() => {
         const getTodosForList = async () => {
@@ -24,8 +25,8 @@ export const TodoPanel = (props: { listId: number }) => {
                 if (response?.status === 200) {
                     setTodos(response.data);
                 }
-            } catch (error) {
-                console.error(error);
+            } catch {
+                setFetchTodoError('Kunde inte hämta todos.')
             } finally {
                 setIsLoadingTodos(false);
             }
@@ -37,10 +38,10 @@ export const TodoPanel = (props: { listId: number }) => {
     async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        setErrorMessage('');
+        setCreateTodoError('');
 
         if (!listId || !newTodoTitle.trim()) {
-            setErrorMessage('Todo måste fyllas i.');
+            setCreateTodoError('Todo måste fyllas i.');
             return;
         }
 
@@ -55,9 +56,8 @@ export const TodoPanel = (props: { listId: number }) => {
 
             setNewTodoTitle('');
 
-        } catch (error) {
-            setErrorMessage('Kunde inte spara todo.');
-            console.error(error);
+        } catch {
+            setCreateTodoError('Kunde inte spara todo.');
         } finally {
             setIsSubmitting(false);
         }
@@ -73,8 +73,8 @@ export const TodoPanel = (props: { listId: number }) => {
                     prev.map(t => t.id === todo.id ? response.data : t)
                 );
             }
-        } catch (error) {
-            console.error('Kunde inte uppdatera todo.', error);
+        } catch {
+            setUpdateTodoError('Kunde inte uppdatera todo.');
         }
     }
 
@@ -94,9 +94,12 @@ export const TodoPanel = (props: { listId: number }) => {
                     <button type="submit" disabled={isSubmitting}>
                         {isSubmitting ? 'Lägger till...' : 'Lägg till'}
                     </button>
+                    {createTodoError && <p>{createTodoError}</p>}
                 </div>
-                {errorMessage && <p>{errorMessage}</p>}
             </form>
+
+            {fetchTodoError && <p>{fetchTodoError}</p>}
+            {updateTodoError && <p>{updateTodoError}</p>}
 
             {isLoadingTodos ? (
                 <p>Laddar todos...</p>
@@ -114,7 +117,7 @@ export const TodoPanel = (props: { listId: number }) => {
                             {todo.title}
                         </li>
                     ))}
-                </ul>
+                </ul >
             )}
 
         </>

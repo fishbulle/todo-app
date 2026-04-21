@@ -45,9 +45,8 @@ export default function LogInForm() {
             setUsernameForm('');
             setPassword('');
 
-        } catch (error) {
+        } catch {
             setErrorMessage('Kunde inte logga in användaren.');
-            console.error(error);
         } finally {
             setIsSubmitting(false);
         }
