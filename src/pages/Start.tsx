@@ -14,7 +14,7 @@ export const StartPage = () => {
     };
     return (
         <>
-            <h1>Startsida</h1>
+            <h2>Startsida</h2>
             <p>Logga in eller registrera dig för att fortsätta</p>
             <StyledButton onClick={logIn}>Logga in</StyledButton>
             <StyledButton onClick={register}>Registera</StyledButton>

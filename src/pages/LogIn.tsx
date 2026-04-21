@@ -3,7 +3,7 @@ import LogInForm from "../components/form/LogInForm"
 export const LogInPage = () => {
     return (
         <>
-            <h1>Logga in</h1>
+            <h2>Logga in</h2>
             <LogInForm />
         </>
     )

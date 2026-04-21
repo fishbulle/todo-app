@@ -72,7 +72,7 @@ export const TodoLists = () => {
 
     return (
         <>
-            <h4>Skapa en ny todo lista</h4>
+            <h2>Skapa en ny todo lista</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="listName">Listans namn </label>
@@ -96,7 +96,7 @@ export const TodoLists = () => {
             <br />
             <br />
 
-            <h1>Dina todo listor</h1>
+            <h2>Dina todo listor</h2>
 
             {lists.map((item) => (
                 <div key={item.id} style={{ borderBottom: '1px solid black', paddingBottom: '10px' }}>

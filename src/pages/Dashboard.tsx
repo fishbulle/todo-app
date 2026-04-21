@@ -7,7 +7,7 @@ export const Dashboard = () => {
 
     return (
         <>
-            <h1>Hej {username}!</h1>
+            <p>Inloggad som: {username}</p>
 
             <TodoLists />
         </>

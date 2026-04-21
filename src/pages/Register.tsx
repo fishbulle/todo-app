@@ -4,7 +4,7 @@ export function RegisterPage() {
 
     return (
         <>
-            <h1>Registrera ny användare</h1>
+            <h2>Registrera ny användare</h2>
             <RegisterForm />
         </>
     );

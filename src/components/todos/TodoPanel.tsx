@@ -82,11 +82,14 @@ export const TodoPanel = (props: { listId: number }) => {
         <>
             <form onSubmit={handleSubmit}>
                 <div>
+                    <label htmlFor="newTodo">Ange ny todo </label>
                     <input
+                        id="newTodo"
                         type="text"
                         value={newTodoTitle}
                         onChange={(event) => setNewTodoTitle(event.target.value)}
                         placeholder="Ny todo"
+                        required
                     />
                     <button type="submit" disabled={isSubmitting}>
                         {isSubmitting ? 'Lägger till...' : 'Lägg till'}
