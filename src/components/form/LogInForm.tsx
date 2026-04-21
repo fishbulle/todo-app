@@ -46,7 +46,7 @@ export default function LogInForm() {
             setPassword('');
 
         } catch (error) {
-            setErrorMessage("Kunde inte logga in användaren.");
+            setErrorMessage('Kunde inte logga in användaren.');
             console.error(error);
         } finally {
             setIsSubmitting(false);
@@ -83,7 +83,7 @@ export default function LogInForm() {
 
             <StyledButton onClick={() => navigate(routes.start)}>Tillbaka</StyledButton>
             <StyledButton type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Loggar in..." : "Logga in"}
+                {isSubmitting ? 'Loggar in...' : 'Logga in'}
             </StyledButton>
 
             {errorMessage && <p>{errorMessage}</p>}

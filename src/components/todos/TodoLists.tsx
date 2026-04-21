@@ -44,7 +44,6 @@ export const TodoLists = () => {
             const response = await createTodoList(listName, token);
 
             if (response?.status == 201) {
-                console.log(response.data);
                 setLists(prev => [...prev, response.data]);
             }
 

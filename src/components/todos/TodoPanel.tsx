@@ -5,7 +5,7 @@ import type { CSSProperties } from "styled-components";
 
 const completedStyle: CSSProperties = {
     textDecoration: 'line-through'
-}
+};
 
 export const TodoPanel = (props: { listId: number }) => {
     const { listId } = props;
@@ -50,15 +50,13 @@ export const TodoPanel = (props: { listId: number }) => {
             const response = await createTodo(listId, token, newTodoTitle);
 
             if (response?.status === 201) {
-                console.log('response createTodo', response.data)
-
                 setTodos(prev => [...prev, response.data]);
             }
 
             setNewTodoTitle('');
 
         } catch (error) {
-            setErrorMessage("Kunde inte spara todo.");
+            setErrorMessage('Kunde inte spara todo.');
             console.error(error);
         } finally {
             setIsSubmitting(false);
@@ -76,7 +74,7 @@ export const TodoPanel = (props: { listId: number }) => {
                 );
             }
         } catch (error) {
-            console.error("Kunde inte uppdatera todo.", error);
+            console.error('Kunde inte uppdatera todo.', error);
         }
     }
 
@@ -91,7 +89,7 @@ export const TodoPanel = (props: { listId: number }) => {
                         placeholder="Ny todo"
                     />
                     <button type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? "Lägger till..." : "Lägg till"}
+                        {isSubmitting ? 'Lägger till...' : 'Lägg till'}
                     </button>
                 </div>
                 {errorMessage && <p>{errorMessage}</p>}

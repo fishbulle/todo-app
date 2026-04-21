@@ -34,14 +34,17 @@ export default function RegisterForm() {
 
             const response = await registerUser(password, username);
 
-            if (response?.status == 201) navigate(routes.login);
-            else if (response?.status == 409) setErrorMessage('Användarnamnet finns redan registrerat.')
+            if (response?.status == 201) {
+                navigate(routes.login);
+            } else if (response?.status == 409) {
+                setErrorMessage('Användarnamnet finns redan registrerat.');
+            }
 
             setUsername('');
             setPassword('');
 
         } catch (error) {
-            setErrorMessage("Kunde inte registrera användaren.");
+            setErrorMessage('Kunde inte registrera användaren.');
             console.error(error);
         } finally {
             setIsSubmitting(false);
@@ -80,7 +83,7 @@ export default function RegisterForm() {
 
             <StyledButton onClick={() => navigate(routes.start)}>Tillbaka</StyledButton>
             <StyledButton type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Registrerar..." : "Registrera"}
+                {isSubmitting ? 'Registrerar...' : 'Registrera'}
             </StyledButton>
 
             {errorMessage && <p>{errorMessage}</p>}
