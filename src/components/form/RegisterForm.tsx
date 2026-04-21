@@ -51,7 +51,7 @@ export default function RegisterForm() {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="username">Användarnamn</label>
+                <label htmlFor="username">Användarnamn </label>
                 <br />
                 <input
                     id="username"
@@ -64,7 +64,7 @@ export default function RegisterForm() {
             </div>
 
             <div>
-                <label htmlFor="password">Lösenord</label>
+                <label htmlFor="password">Lösenord </label>
                 <br />
                 <input
                     id="password"

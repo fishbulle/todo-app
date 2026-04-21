@@ -174,3 +174,24 @@ export async function updateTodo(
         console.error('Could not update todo', error);
     }
 }
+
+export async function deleteTodoList(
+    listID: number,
+    token: string
+): Promise<AxiosResponse<void> | undefined> {
+    try {
+        const response = await api.delete(
+            `/lists/${listID}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        return response;
+    } catch (error) {
+        console.error('Could not delete list', error);
+    }
+}

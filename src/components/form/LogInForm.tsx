@@ -56,7 +56,7 @@ export default function LogInForm() {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="username">Användarnamn</label>
+                <label htmlFor="username">Användarnamn </label>
                 <br />
                 <input
                     id="username"
@@ -69,7 +69,7 @@ export default function LogInForm() {
             </div>
             <br />
             <div>
-                <label htmlFor="password">Lösenord</label>
+                <label htmlFor="password">Lösenord </label>
                 <br />
                 <input
                     id="password"

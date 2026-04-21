@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState, type SyntheticEvent } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { createTodoList, fetchAllTodoLists, type TodoList } from "../../api/api";
+import { createTodoList, deleteTodoList, fetchAllTodoLists, type TodoList } from "../../api/api";
 import { TodoPanel } from "./TodoPanel";
-import { StyledButton } from "../../styles/styles";
 
 
 export const TodoLists = () => {
@@ -59,14 +58,25 @@ export const TodoLists = () => {
         }
     }
 
+    async function handleDeleteList(listId: number) {
+        try {
+            const response = await deleteTodoList(listId, token);
+
+            if (response?.status === 204) {
+                setLists(prev => prev.filter(list => list.id !== listId));
+            }
+
+        } catch (error) {
+            console.error("Kunde inte uppdatera todo.", error);
+        }
+    }
 
     return (
         <>
             <h4>Skapa en ny todo lista</h4>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="listName">Listans namn</label>
-                    <br />
+                    <label htmlFor="listName">Listans namn </label>
                     <input
                         id="listName"
                         type="text"
@@ -75,20 +85,25 @@ export const TodoLists = () => {
                         placeholder="Ange listans namn"
                         required
                     />
-                </div>
-                <StyledButton type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Skapar lista..." : "Skapa lista"}
-                </StyledButton>
 
-                {errorMessage && <p>{errorMessage}</p>}
+                    <button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Skapar lista..." : "Skapa lista"}
+                    </button>
+
+                    {errorMessage && <p>{errorMessage}</p>}
+                </div>
             </form>
+
+            <br />
+            <br />
 
             <h1>Dina todo listor</h1>
 
             {lists.map((item) => (
-                <div key={item.id}>
+                <div key={item.id} style={{ borderBottom: '1px solid black', paddingBottom: '10px' }}>
                     <h3>{item.name}</h3>
                     <TodoPanel listId={item.id} />
+                    <button onClick={() => handleDeleteList(item.id)}>Radera lista</button>
                 </div>
             ))}
 
