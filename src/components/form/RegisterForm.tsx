@@ -62,7 +62,7 @@ export default function RegisterForm() {
                     required
                 />
             </div>
-
+            <br />
             <div>
                 <label htmlFor="password">Lösenord </label>
                 <br />
