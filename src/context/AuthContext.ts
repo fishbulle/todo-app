@@ -1,8 +1,6 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
 
 interface IAuthContext {
-    isAuthenticated: boolean;
-    setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
     username: string;
     setUsername: Dispatch<SetStateAction<string>>;
     token: string;
@@ -10,8 +8,6 @@ interface IAuthContext {
 }
 
 const defaultAuthContext: IAuthContext = {
-    isAuthenticated: false,
-    setIsAuthenticated: () => { },
     username: '',
     setUsername: () => { },
     token: '',

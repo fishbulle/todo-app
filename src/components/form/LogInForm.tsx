@@ -13,7 +13,7 @@ export default function LogInForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const { setIsAuthenticated, setToken, setUsername } =
+    const { setToken, setUsername } =
         useContext(AuthContext);
 
     const navigate = useNavigate()
@@ -34,7 +34,6 @@ export default function LogInForm() {
             const response = await logIn(password, usernameForm);
 
             if (response?.status == 201) {
-                setIsAuthenticated(true);
                 setToken(response.data.token);
                 setUsername(response.data.user.username);
                 navigate(routes.dashboard);
