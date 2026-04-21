@@ -39,6 +39,7 @@ export async function registerUser(
         return response;
     } catch (error) {
         console.error('Could not create user', error);
+        throw error;
     }
 }
 
@@ -55,6 +56,7 @@ export async function logIn(
         return response;
     } catch (error) {
         console.error('Could not log in user', error);
+        throw error;
     }
 }
 
@@ -79,6 +81,7 @@ export async function createTodoList(
         return response;
     } catch (error) {
         console.error('Could not create list', error);
+        throw error;
     }
 }
 
@@ -98,6 +101,7 @@ export async function fetchAllTodoLists(token: string):
         return response;
     } catch (error) {
         console.error('Could not fetch lists', error);
+        throw error;
     }
 }
 
@@ -123,6 +127,7 @@ export async function createTodo(
         return response;
     } catch (error) {
         console.error('Could not create todo', error);
+        throw error;
     }
 }
 
@@ -144,6 +149,7 @@ export async function fetchAllTodosInList(
         return response;
     } catch (error) {
         console.error('Could not fetch todos', error);
+        throw error;
     }
 }
 
@@ -172,6 +178,7 @@ export async function updateTodo(
         return response;
     } catch (error) {
         console.error('Could not update todo', error);
+        throw error;
     }
 }
 
@@ -193,5 +200,6 @@ export async function deleteTodoList(
         return response;
     } catch (error) {
         console.error('Could not delete list', error);
+        throw error;
     }
 }
