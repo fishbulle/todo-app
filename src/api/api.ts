@@ -13,17 +13,17 @@ type LoginResponse = {
 };
 
 type CreateListResponse = {
+    createdAt: string;
     id: number;
     name: string;
-    createdAt: string;
+    ownerId: number;
 };
 
 type CreateTodoResponse = {
-    id: number;
-    title: string;
     completed: boolean;
     createdAt: string;
-    listId: number;
+    id: number;
+    title: string;
 };
 
 export async function registerUser(
@@ -82,6 +82,25 @@ export async function createTodoList(
     }
 }
 
+export async function fetchAllTodoLists(token: string):
+    Promise<AxiosResponse<CreateListResponse> | undefined> {
+    try {
+        const response = await api.get(
+            '/lists',
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        return response;
+    } catch (error) {
+        console.error('Could not fetch lists', error);
+    }
+}
+
 export async function createTodo(
     listID: number,
     token: string,
@@ -104,5 +123,54 @@ export async function createTodo(
         return response;
     } catch (error) {
         console.error('Could not create todo', error);
+    }
+}
+
+export async function fetchAllTodosInList(
+    listID: number,
+    token: string,
+): Promise<AxiosResponse<CreateTodoResponse> | undefined> {
+    try {
+        const response = await api.get(
+            `/lists/${listID}/todos`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        return response;
+    } catch (error) {
+        console.error('Could not fetch todos', error);
+    }
+}
+
+export async function updateTodo(
+    listID: number,
+    id: number,
+    token: string,
+    completed: boolean,
+    title: string
+): Promise<AxiosResponse<CreateTodoResponse> | undefined> {
+    try {
+        const response = await api.put(
+            `/lists/${listID}/todos/${id}`,
+            {
+                completed,
+                title,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        return response;
+    } catch (error) {
+        console.error('Could not update todo', error);
     }
 }
