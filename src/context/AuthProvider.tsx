@@ -12,12 +12,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    if (token) {
-      localStorage.setItem("token", token);
+    if (token && username) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username)
     } else {
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
+      localStorage.removeItem('username')
     }
-  }, [token]);
+  }, [token, username]);
 
   const authContextValue = {
     username,
