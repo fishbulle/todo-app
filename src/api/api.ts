@@ -12,14 +12,14 @@ type LoginResponse = {
     user: User;
 };
 
-type CreateListResponse = {
+export type CreateListResponse = {
     createdAt: string;
     id: number;
     name: string;
     ownerId: number;
 };
 
-type CreateTodoResponse = {
+export type CreateTodoResponse = {
     completed: boolean;
     createdAt: string;
     id: number;
@@ -83,7 +83,7 @@ export async function createTodoList(
 }
 
 export async function fetchAllTodoLists(token: string):
-    Promise<AxiosResponse<CreateListResponse> | undefined> {
+    Promise<AxiosResponse<CreateListResponse[]> | undefined> {
     try {
         const response = await api.get(
             '/lists',
@@ -129,7 +129,7 @@ export async function createTodo(
 export async function fetchAllTodosInList(
     listID: number,
     token: string,
-): Promise<AxiosResponse<CreateTodoResponse> | undefined> {
+): Promise<AxiosResponse<CreateTodoResponse[]> | undefined> {
     try {
         const response = await api.get(
             `/lists/${listID}/todos`,
