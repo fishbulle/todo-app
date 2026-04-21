@@ -19,7 +19,9 @@ export const TodoLists = () => {
                 if (response?.status == 200) {
                     setLists(response.data);
                 }
-                else return [];
+                else {
+                    setLists([]);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -50,7 +52,7 @@ export const TodoLists = () => {
             setListName('');
 
         } catch (error) {
-            setErrorMessage("Kunde inte spara lista.");
+            setErrorMessage('Kunde inte spara lista.');
             console.error(error);
         } finally {
             setIsSubmitting(false);
@@ -66,7 +68,7 @@ export const TodoLists = () => {
             }
 
         } catch (error) {
-            console.error("Kunde inte uppdatera todo.", error);
+            console.error('Kunde inte radera lista.', error);
         }
     }
 
@@ -86,7 +88,7 @@ export const TodoLists = () => {
                     />
 
                     <button type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? "Skapar lista..." : "Skapa lista"}
+                        {isSubmitting ? 'Skapar lista...' : 'Skapa lista'}
                     </button>
 
                     {errorMessage && <p>{errorMessage}</p>}
@@ -99,7 +101,7 @@ export const TodoLists = () => {
             <h2>Dina todo listor</h2>
 
             {lists.map((item) => (
-                <div key={item.id} style={{ borderBottom: '1px solid black', paddingBottom: '10px' }}>
+                <div key={item.id} style={{ borderBottom: '1px solid black', paddingBottom: '2em' }}>
                     <h3>{item.name}</h3>
                     <TodoPanel listId={item.id} />
                     <button onClick={() => handleDeleteList(item.id)}>Radera lista</button>
