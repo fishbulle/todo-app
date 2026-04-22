@@ -1,7 +1,6 @@
 import RegisterForm from "../components/form/RegisterForm";
 
-export function RegisterPage() {
-
+export const RegisterPage = () => {
     return (
         <>
             <h2>Registrera ny användare</h2>
