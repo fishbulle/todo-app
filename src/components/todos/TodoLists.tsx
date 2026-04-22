@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, type SyntheticEvent } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { createTodoList, deleteTodoList, fetchAllTodoLists, type TodoList } from "../../api/api";
-import { TodoPanel } from "./TodoPanel";
+import { Todos } from "./Todos";
 
 
 export const TodoLists = () => {
@@ -102,12 +102,12 @@ export const TodoLists = () => {
 
             {fetchListsError && <p>{fetchListsError}</p>}
 
-            {lists.map((item) => (
-                <div key={item.id} style={{ borderBottom: '1px solid black', paddingBottom: '2em' }}>
-                    <h3>{item.name}</h3>
-                    <TodoPanel listId={item.id} />
-                    <button onClick={() => handleDeleteList(item.id)}>Radera lista</button>
-                    {deleteListErrorId === item.id && <p>{deleteListError}</p>}
+            {lists.map((list) => (
+                <div key={list.id} style={{ borderBottom: '1px solid black', paddingBottom: '2em' }}>
+                    <h3>{list.name}</h3>
+                    <Todos listId={list.id} />
+                    <button onClick={() => handleDeleteList(list.id)}>Radera lista</button>
+                    {deleteListErrorId === list.id && <p>{deleteListError}</p>}
                 </div>
             ))}
 

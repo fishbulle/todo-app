@@ -6,7 +6,7 @@ const completedStyle: CSSProperties = {
     textDecoration: 'line-through'
 };
 
-export const TodoPanel = (props: { listId: number }) => {
+export const Todos = (props: { listId: number }) => {
     const { listId } = props;
     const { token } = useContext(AuthContext);
     const [todos, setTodos] = useState<Todo[]>([]);
@@ -82,13 +82,13 @@ export const TodoPanel = (props: { listId: number }) => {
         <>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="newTodo">Ange ny todo </label>
+                    <label htmlFor="newTodo">Ny todo </label>
                     <input
                         id="newTodo"
                         type="text"
                         value={newTodoTitle}
                         onChange={(event) => setNewTodoTitle(event.target.value)}
-                        placeholder="Ny todo"
+                        placeholder="Ange ny todo"
                         required
                     />
                     <button type="submit" disabled={isSubmitting}>
