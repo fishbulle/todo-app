@@ -38,9 +38,6 @@ export default function LogInForm() {
                 setUsername(response.data.user.username);
                 navigate(routes.dashboard);
             }
-            else if (response?.status == 401) {
-                setErrorMessage('Felaktigt användarnamn eller lösenord');
-            }
 
             setUsernameForm('');
             setPassword('');

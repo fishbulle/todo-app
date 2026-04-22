@@ -36,8 +36,6 @@ export default function RegisterForm() {
 
             if (response?.status == 201) {
                 navigate(routes.login);
-            } else if (response?.status == 409) {
-                setErrorMessage('Användarnamnet finns redan registrerat.');
             }
 
             setUsername('');
